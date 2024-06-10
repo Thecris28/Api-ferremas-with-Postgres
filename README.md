@@ -19,20 +19,44 @@
     <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
   <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+  
 
-## Description
+## Descripción
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+API Desarrollada con [Nest](https://github.com/nestjs/nest) framework + TypeScript + Postgres
 
-## Installation
+## Requerimientos
+
+* Nodejs 20.x.x ó superior.   [Instalar Nodejs]()
+```console
+node --version
+```
+* Instalar docker 
+[Instalar Nodejs](https://www.docker.com/products/docker-desktop/)
+
+* Instalar NestJS 
+```
+npm i -g @nestjs/cli
+
+## Paso a paso para iniciar Api
+
+* Clonar repositorio
 
 ```bash
-$ npm install
+git clone https://github.com/Thecris28/Api-ferremas.git
 ```
-
-## Running the app
+* Ingresar a la carpeta del proyecto
+```bash
+cd Api-ferremas
+```
+* Instalar dependencias
+```bash
+npm install
+```
+* Levantar imagen postgres con docker
+```bash
+docker-compose up -d
+```
 
 ```bash
 # development
@@ -41,8 +65,6 @@ $ npm run start
 # watch mode
 $ npm run start:dev
 
-# production mode
-$ npm run start:prod
 ```
 
 ## Test
