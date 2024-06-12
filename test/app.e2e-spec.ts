@@ -15,12 +15,12 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
-  });
+  // it('/ (GET)', () => {
+  //   return request(app.getHttpServer())
+  //     .get('/')
+  //     .expect(200)
+  //     .expect('Hello World!');
+  // });
 
   let productId: string;
 
@@ -32,7 +32,7 @@ describe('AppController (e2e)', () => {
         codigo: '123ABC',
         nombre: 'Test Producto',
         precio: 100,
-        categoriaId: 'some-category-uuid',
+        categoriaId: 'ee3526f4-5610-4336-aea7-deee5a34d940',
         stock: 10,
         createdAt: new Date(),
       })

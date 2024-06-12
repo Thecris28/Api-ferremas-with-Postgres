@@ -5,6 +5,9 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
 import { CategoriasModule } from './categorias/categorias.module';
+import { PedidosModule } from './pedidos/pedidos.module';
+import { PagosModule } from './pagos/pagos.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -20,7 +23,10 @@ import { CategoriasModule } from './categorias/categorias.module';
       synchronize: true, // cambio en la entidades las sincroniza tambien se puede ejecutar las mjgraciones
     }),
     ProductsModule,
-    CategoriasModule
+    CategoriasModule,
+    PedidosModule,
+    PagosModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],

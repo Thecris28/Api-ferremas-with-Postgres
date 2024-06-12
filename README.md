@@ -27,7 +27,7 @@ API Desarrollada con [Nest](https://github.com/nestjs/nest) framework + TypeScri
 
 ## Requerimientos
 
-* Nodejs 20.x.x ó superior.   [Instalar Nodejs]()
+* Nodejs 20.x.x ó superior.   [Instalar Nodejs](https://nodejs.org/en)
 ```console
 node --version
 ```
