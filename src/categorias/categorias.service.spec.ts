@@ -1,11 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CategoriasService } from './categorias.service';
-import { CategoriasModule } from './categorias.module';
 import { Repository } from 'typeorm';
 import { Categoria } from './entities/categoria.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
-import { } from 'uuid'
 
 
   describe('CategoriaService', () => {
@@ -46,7 +44,7 @@ import { } from 'uuid'
         jest.spyOn(categoriaRepository, 'create').mockReturnValueOnce(newCategoria);
         jest.spyOn(categoriaRepository, 'save').mockResolvedValueOnce(newCategoria);
   
-        const result = await service.create(createCategoriaDto);
+        const result = service.create(createCategoriaDto);
         expect(result).toEqual(newCategoria);
       });
 
