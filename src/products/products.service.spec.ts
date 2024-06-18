@@ -6,27 +6,27 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 describe('ProductsService', () => {
   let service: ProductsService;
-  let productoRepository: Repository<Product>;
-  
+  let categoriaRepository: Repository<Product>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ProductsService,
+      providers: [
+        ProductsService,
         {
           provide: getRepositoryToken(Product),
           useClass: Repository, // Use useClass for mock Repository
-        }
+        },
       ],
-      
     }).compile();
 
     service = module.get<ProductsService>(ProductsService);
-    productoRepository = module.get<Repository<Product>>(
-      getRepositoryToken(Product),
-    );
+    categoriaRepository = module.get<Repository<Product>>(
+    getRepositoryToken(Product),
+  );
+    
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
-});
+
