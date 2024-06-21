@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe, UseGuards } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { AuthGuard } from '../users/auth/auth.guard';
 
 @Controller('products')
 export class ProductsController {
@@ -13,6 +14,7 @@ export class ProductsController {
   }
 
   @Get()
+  @UseGuards( AuthGuard )
   findAll() {
     return this.productsService.findAll();
   }
