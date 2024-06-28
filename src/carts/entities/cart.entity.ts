@@ -1,13 +1,13 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { CartItem } from "./cart-item.entity";
 
-@Entity()
+@Entity('cart')
 export class Cart {
 
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column('text', { array: true })
+    @Column('text')
     userId: string
 
     @Column()

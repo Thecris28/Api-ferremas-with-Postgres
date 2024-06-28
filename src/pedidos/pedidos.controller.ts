@@ -7,9 +7,9 @@ import { UpdatePedidoDto } from './dto/update-pedido.dto';
 export class PedidosController {
   constructor(private readonly pedidosService: PedidosService) {}
 
-  @Post()
+  @Post('pago')
   create(@Body() createPedidoDto: CreatePedidoDto) {
-    return this.pedidosService.create(createPedidoDto);
+    return this.pedidosService.createPayment(createPedidoDto);
   }
 
   @Get()
@@ -19,7 +19,7 @@ export class PedidosController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.pedidosService.findOne(+id);
+    return this.pedidosService.findOne(id);
   }
 
   @Patch(':id')

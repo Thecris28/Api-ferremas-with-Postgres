@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { ArrayNotEmpty, IsArray, IsNumber, IsOptional, IsPositive, IsString, IsUUID } from "class-validator";
+import { ArrayNotEmpty, IsArray, IsNumber, IsOptional, IsPositive, IsString, IsUUID, ValidateNested } from "class-validator";
 import { ItemCartDto } from "./item-cart.dto";
 
 export class CreateCartDto {
@@ -10,11 +10,13 @@ export class CreateCartDto {
 
     @IsArray()
     @ArrayNotEmpty()
+    @ValidateNested({ each: true })
     @Type(() => ItemCartDto)
     items: ItemCartDto[];
 
     @IsOptional()
     @IsPositive()
+    @IsNumber()
     @Type(() => Number)
     total?: number;
 }

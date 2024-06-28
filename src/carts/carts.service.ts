@@ -20,21 +20,18 @@ export class CartsService {
 
   async createCart(createCartDto: CreateCartDto) {
 
-    const {userId , items} = createCartDto;
+    const {items, userId} = createCartDto;
 
-    let existsCart = await this.findCartByUserId(userId);
 
-    if(existsCart) {
-      const oldCartItems = await this.removeCart(existsCart.id);
+    const oldCart = await this.cartRepository.findOneBy({userId});
 
-      return;
-    }
+    if(oldCart) return this.updateCart(oldCart.id, createCartDto);
 
 
     let total = 0;
 
-    const itemEntities = await Promise.all( items.map( async (item) => {
-
+    let itemEntities: CartItem[] = await Promise.all( 
+      items.map( async ( item ) => {
       const product = await this.productsService.findOne(item.productId);
       if(!product) throw new BadRequestException(`Product with id ${item.productId} not found`);
 
@@ -56,35 +53,70 @@ export class CartsService {
       total
     })
 
-    this.cartRepository.save(cart);
+    const newCart = await this.cartRepository.save(cart);
 
-    return cart;
+    return newCart;
   }
 
   findAll() {
     return this.cartRepository.find();
   }
 
-  findOne(id: string) {
-    const cart = this.cartRepository.findOneBy({id})
+  async findOne(id: string) {
+    const cart = await this.cartRepository.findOne({where: { id },
+      relations: ['items']})
     if(!cart) throw new BadRequestException(`Cart with id ${id} not found`);
     return cart;
   }
 
-  updateCart(id: string, updateCartDto: UpdateCartDto) {
-    const cart = this.findOne(id);
+  async updateCart(id: string, updateCartDto: UpdateCartDto) {
+    const cart = await this.cartRepository.findOne({
+      where: { id },
+      relations: ['items']
+    });
 
+    await this.cartRepository.delete({ id: cart.id, });
 
-    return `This action updates a #${id} cart`;
+    // Elimina todos los ítems existentes
+    await this.itemsRepository.delete({ cart: { id }, });
+
+    // Crea y guarda los nuevos ítems
+    const { items } = updateCartDto;
+
+    let total = 0;
+
+    const newItems: CartItem[] = await Promise.all( items.map(async item =>{
+
+      const product = await this.productsService.findOne(item.productId);
+
+      total += product.precio * item.quantity;
+
+      return this.itemsRepository.create({
+        productId: item.productId,
+        quantity: item.quantity
+      })
+    }
+    ));
+
+    // Actualiza el carrito
+    const cartUpdated = this.cartRepository.create({
+      userId: updateCartDto.userId,
+      items: newItems,
+      total
+    })
+
+    return await this.cartRepository.save(cartUpdated);
+  
   }
 
   async removeCart(id: string) {
-    const deleteCart = await this.cartRepository.delete(id)
+    const cart = await this.findOne(id);
+    const deleteCart = await this.cartRepository.delete(cart);
     return deleteCart;
   }
 
   async findCartByUserId(userId: string) {
-    const cart = await this.cartRepository.findOneBy({userId})
+    const cart = await this.cartRepository.findOneBy({userId});
     return cart;
   }
 }

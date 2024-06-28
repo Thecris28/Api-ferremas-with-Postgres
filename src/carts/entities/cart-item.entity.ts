@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Cart } from "./cart.entity";
 
 @Entity('cart_item')
@@ -13,6 +13,6 @@ export class CartItem {
     @Column()
     quantity : number;
 
-    @ManyToMany( () => Cart , (cart) => cart.items)
-    cart : Cart;
+    @ManyToOne( () => Cart , (cart) => cart.items,{ onDelete: 'CASCADE' } )
+    cart : Cart ;
 }

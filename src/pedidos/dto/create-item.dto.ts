@@ -1,13 +1,15 @@
+
 import { Type } from "class-transformer";
-import { IsNumber, IsPositive, IsString, Min } from "class-validator";
+import { IsNumber, IsPositive, IsString, IsUUID, Min } from "class-validator";
 
-export class ItemCartDto {
 
+export class CreateItemDto {
     @IsString()
     productId: string;
 
     @IsNumber()
     @IsPositive()
     @Min(1)
+    @Type(() => Number)
     quantity: number;
 }
