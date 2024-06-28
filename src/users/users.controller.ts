@@ -19,15 +19,23 @@ export class UsersController {
     return this.usersService.loginUser(loginUserDto);
   }
 
+  
   @Get()
+  @UseGuards( AuthGuard )
   findAll() {
     return this.usersService.findAll();
+  }
+  
+  @Get(':id')
+  @UseGuards( AuthGuard )
+  findOne(@Param('id') id: string) {
+    return this.usersService.findOneUser(id);
   }
 
   @Get('private')
   @UseGuards( AuthGuard )
   testingPrivateRoute() {
-    return 'private route'
+    return 'private route found'
   }
 
   

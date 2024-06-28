@@ -73,4 +73,49 @@ export class ProductsService {
     this.logger.error(error)
     throw new InternalServerErrorException('Unexpected error, check server logs')
   }
+
+  async updateStock(id: string, quantity: number) {
+    
+    const product = await this.productRepository.preload({
+      id: id
+    })
+
+    if(!product) throw new NotFoundException(`Product with id ${id} not found`)
+
+    product.stock = product.stock - quantity
+    product.updatedAt = new Date()
+
+    try {
+      await this.productRepository.save(product)
+      
+    } catch (error) {
+      this.handleDbException(error)
+      
+    }
+    return product;
+  }
+
+  findByCategory(categoria: number) {
+     const products = this.productRepository.find({
+      where: {
+        categoria: categoria
+      }
+    })
+
+    if (!products) throw new NotFoundException(`Products with category ${categoria} not exist`)
+    return products
+  }
+
+  async deleteAllProducts() {
+    const query = this.productRepository.createQueryBuilder('product')
+    try {
+      return await query
+        .delete()
+        .where({})
+        .execute()
+    } catch (error) {
+      this.handleDbException(error)
+    }
+
+  }
 }

@@ -21,6 +21,8 @@ export class CategoriasService {
 
       const categoria = this.categoriasRepository.create(createCategoriaDto)
 
+      categoria.createdAt = new Date()
+
       await this.categoriasRepository.save(categoria)
 
       return categoria
@@ -69,5 +71,17 @@ export class CategoriasService {
       throw new BadRequestException(error.detail);
     this.logger.error(error)
     throw new InternalServerErrorException('Unexpected error, check server logs')
+  }
+
+  async deleteAllCategories() {
+    const query = this.categoriasRepository.createQueryBuilder('Categoria')
+    try {
+      return await query
+        .delete()
+        .where({})
+        .execute()
+    } catch (error) {
+      this.handleDbException(error)
+    }
   }
 }

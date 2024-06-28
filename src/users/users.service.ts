@@ -50,7 +50,7 @@ export class UsersService {
 
       const user = await this.userRepository.findOne({ 
         where: {email},
-        select: { email: true , password: true}
+        select: { email: true , password: true , id: true}
        })
 
        if(!user)
@@ -62,15 +62,16 @@ export class UsersService {
        const payload = { sub: user.id, email: user.email };
 
        return {
-        ...loginUserDto,
+        email: user.email,
+        id: user.id,
         access_token: await this.jwtService.signAsync(payload),
       };
 
    
     }
     
-  findAll() {
-      return `This action returns all users`;
+  async findAll() {
+      return this.userRepository.find();
   }
 
   private findDbError(error: any) : never {
@@ -81,6 +82,17 @@ export class UsersService {
 
     throw new InternalServerErrorException('Unexpected error, check server logs')
   }
+
+
+  async findOneUser(id : string) {
+    const user = await this.userRepository.findOneBy({id})
+
+    if(!user) throw new BadRequestException(`User with id ${id} not found`)
+    delete user.password
+    return user
+  }
+
+  
   // update(id: number, updateUserDto: UpdateUserDto) {
   //   return `This action updates a #${id} user`;
   // }

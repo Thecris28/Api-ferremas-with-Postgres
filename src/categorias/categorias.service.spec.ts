@@ -33,19 +33,23 @@ import { CreateCategoriaDto } from './dto/create-categoria.dto';
   
 
     it('should create a new categoria', async () => {
-        const createCategoriaDto: CreateCategoriaDto = {
-          nombre: 'Test Categoria',
-        };
-  
-        const newCategoria: Categoria = {
-          nombre: 'Test Categoria',
-        } as Categoria;
-  
-        jest.spyOn(categoriaRepository, 'create').mockReturnValueOnce(newCategoria);
-        jest.spyOn(categoriaRepository, 'save').mockResolvedValueOnce(newCategoria);
-  
-        const result = service.create(createCategoriaDto);
-        expect(result).toEqual(newCategoria);
+      const createCategoriaDto: CreateCategoriaDto = {
+        nombre: 'Test Categoria',
+      };
+    
+      const newCategoria: Categoria = {
+        id: 1,
+        nombre: 'Test Categoria',
+        createdAt: new Date(),
+      } as Categoria;
+    
+      jest.spyOn(categoriaRepository, 'create').mockReturnValueOnce(newCategoria);
+      jest.spyOn(categoriaRepository, 'save').mockResolvedValueOnce(newCategoria);
+    
+      const result = await service.create(createCategoriaDto); 
+      expect(result).toEqual(newCategoria);
+    });
+
       });
 
   
@@ -107,5 +111,5 @@ import { CreateCategoriaDto } from './dto/create-categoria.dto';
     //     expect(result).toEqual({ id, message: 'Categoria removed' }); // Assuming you return some message
     //   });
     // });
-  });
+
 

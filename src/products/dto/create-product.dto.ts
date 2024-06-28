@@ -12,9 +12,10 @@ export class CreateProductDto {
     @IsString()
     nombre: string;
 
-    @IsString()
-    @IsUUID()
-    categoriaId: string;
+    @IsNumber()
+    @IsPositive()
+    @Type(() => Number)
+    categoria: number;
     
     @IsNumber()
     @IsPositive()

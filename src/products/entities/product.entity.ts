@@ -20,8 +20,8 @@ export class Product {
     @Column('int')
     precio: number
 
-    @Column('uuid')
-    categoriaId: string
+    @Column('int')
+    categoria: number
 
     @Column('int')
     stock: number

@@ -6,8 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
 import { CategoriasModule } from './categorias/categorias.module';
 import { PedidosModule } from './pedidos/pedidos.module';
-import { PagosModule } from './pagos/pagos.module';
 import { UsersModule } from './users/users.module';
+import { SeedModule } from './seed/seed.module';
+import { CartsModule } from './carts/carts.module';
 
 @Module({
   imports: [
@@ -25,8 +26,9 @@ import { UsersModule } from './users/users.module';
     ProductsModule,
     CategoriasModule,
     PedidosModule,
-    PagosModule,
-    UsersModule
+    UsersModule,
+    SeedModule,
+    CartsModule
   ],
   controllers: [AppController],
   providers: [AppService],

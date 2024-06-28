@@ -8,4 +8,7 @@ export class Categoria {
 
     @Column()
     nombre: string;
+
+    @Column('date')
+    createdAt: Date;
 }
