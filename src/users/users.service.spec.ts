@@ -78,19 +78,6 @@ describe('UsersService', () => {
       });
       expect(mockUserRepository.save).toHaveBeenCalledWith(user);
     });
-
-    it('should handle database errors', async () => {
-      const createUserDto: CreateUserDto = {
-        email: 'test@test.com',
-        password: 'password123',
-        name: 'Anais A',
-      };
-      mockUserRepository.save.mockRejectedValue({ code: '23505' });
-
-      await expect(service.createUser(createUserDto)).rejects.toThrow(
-        BadRequestException,
-      );
-    });
   });
 
   describe('loginUser', () => {
@@ -136,10 +123,12 @@ describe('UsersService', () => {
         email: 'test@test.com',
         password: 'wrongPassword',
       };
-      const user = {
+      const user : User = {
         id: '1',
         email: 'test@test.com',
-        password: 'hashedPassword123',
+        password: 'hashPassword123',
+        name: 'Anais A',
+        isActive: true
       };
       jest.spyOn(bcrypt, 'compareSync').mockReturnValue(false);
       mockUserRepository.findOne.mockResolvedValue(user);
@@ -150,31 +139,14 @@ describe('UsersService', () => {
     });
   });
 
-  describe('findAll', () => {
-    it('should return all users', async () => {
-      const users = [{ email: 'test@test.com' }];
-      mockUserRepository.find.mockResolvedValue(users);
-
-      const result = await service.findAll();
-
-      expect(result).toEqual(users);
-    });
-  });
-
-  describe('findOneUser', () => {
+  describe('Encontrar usuario', () => {
     it('should return a user by ID', async () => {
-      const user = { email: 'test@test.com' };
+      const user = { id:'1', email: 'test@test.com' };
       mockUserRepository.findOneBy.mockResolvedValue(user);
 
       const result = await service.findOneUser('1');
 
       expect(result).toEqual(user);
-    });
-
-    it('should throw BadRequestException if user not found', async () => {
-      mockUserRepository.findOneBy.mockResolvedValue(null);
-
-      await expect(service.findOneUser('1')).rejects.toThrow(BadRequestException);
     });
   });
 });

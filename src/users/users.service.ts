@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -45,7 +45,6 @@ export class UsersService {
   
   async loginUser(loginUserDto : LoginUserDto){ 
     
-      
       const { email, password } = loginUserDto;
 
       const user = await this.userRepository.findOne({ 
@@ -90,6 +89,18 @@ export class UsersService {
     if(!user) throw new BadRequestException(`User with id ${id} not found`)
     delete user.password
     return user
+  }
+
+
+  //Solo para test
+  async deleteUser(id: string) {
+
+    const user = await this.userRepository.findOneBy({id})
+
+    if(!user) throw new NotFoundException(`User whith id ${id} not found`)
+    
+
+    return this.userRepository.delete(user)
   }
 
   

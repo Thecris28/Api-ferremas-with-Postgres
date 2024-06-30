@@ -16,8 +16,9 @@ export class ProductsService {
   ){}
 
   async create(createProductDto: CreateProductDto) {
+
+    if (createProductDto.stock < 0) throw new BadRequestException('Stock must be greater than 0');
     try {
-      // const {} = createProductDto
 
       // const newProduct = {...createProductDto, createdAt: new Date()}
       const product = this.productRepository.create(createProductDto);
@@ -30,6 +31,7 @@ export class ProductsService {
       return product
       
     } catch (error) {
+      
       this.handleDbException(error)
       
     }
@@ -46,11 +48,18 @@ export class ProductsService {
   }
 
   async updateProduct(id: string, updateProductDto: UpdateProductDto) {
+
+    const {stock, ...toUpdate} = updateProductDto;
+
+    if (stock < 0) throw new BadRequestException('Stock must be greater than 0');
+
     const product = await this.productRepository.preload({
       id: id,
-      ...updateProductDto,
+      stock: stock,
+      ...toUpdate,
       updatedAt: new Date()
     })
+
     if(!product) throw new NotFoundException(`Product with id ${id} not found`)
     try {
       await this.productRepository.save(product)
@@ -71,7 +80,8 @@ export class ProductsService {
     if(error.code === '23505')
       throw new BadRequestException(error.detail);
     this.logger.error(error)
-    throw new InternalServerErrorException('Unexpected error, check server logs')
+    throw new BadRequestException('An unexpected error occurred');
+
   }
 
   async updateStock(id: string, quantity: number) {

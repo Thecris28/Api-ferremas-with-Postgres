@@ -7,6 +7,8 @@ import { Pedido } from './entities/pedido.entity';
 import { PedidoItem } from './entities/pedido-Item.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CartsService } from '../carts/carts.service';
+import { JwtService } from '@nestjs/jwt';
+import { AuthGuard } from '../users/auth/auth.guard';
 
 const mockPedidoRepository = () => ({
   create: jest.fn(),
@@ -35,7 +37,8 @@ describe('PedidosController', () => {
   let PedidoRepository: Repository<Pedido>;
   let PedidoItemRepository: Repository<PedidoItem>;
   let productsService: ProductsService;
-  let cartsService: CartsService
+  let cartsService: CartsService;
+  let jwtService: JwtService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -45,9 +48,17 @@ describe('PedidosController', () => {
         { provide: getRepositoryToken(Pedido), useFactory: mockPedidoRepository },
         { provide: getRepositoryToken(PedidoItem), useValue: mockPedidoItemRepository },
         { provide: ProductsService, useValue: mockProductsService },
-        { provide: CartsService, useValue: mockCartsService }
+        { provide: CartsService, useValue: mockCartsService },
+        JwtService,
+        {provide: AuthGuard,
+          useValue: {
+            canActivate: jest.fn(() => true),
+          },
+        },
       ],
     }).compile();
+
+    
 
     controller = module.get<PedidosController>(PedidosController);
     service = module.get<PedidosService>(PedidosService);
@@ -55,6 +66,7 @@ describe('PedidosController', () => {
     PedidoItemRepository = module.get<Repository<PedidoItem>>(getRepositoryToken(PedidoItem));
     productsService = module.get<ProductsService>(ProductsService);
     cartsService = module.get<CartsService>(CartsService);
+    jwtService = module.get<JwtService>(JwtService);
   });
 
   it('should be defined', () => {

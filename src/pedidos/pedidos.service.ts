@@ -32,6 +32,7 @@ export class PedidosService {
 
      let product = await Promise.all(items.map( async item => {
       const data = await this.productsService.findOne(item.productId);
+      this.productsService.updateStock(data.id, item.quantity)
       console.log(data)
 
        return this.pedidoItemsRepository.create({
@@ -45,7 +46,6 @@ export class PedidosService {
 
     console.log(product)
     
-     
     const pedido = this.pedidosRepository.create({
       cartId: CartId,
       userId,
@@ -54,24 +54,26 @@ export class PedidosService {
       amount: total
     })
     
-
-
     this.pedidosRepository.save(pedido);
+
+    this.cartsService.removeCart(CartId)
 
     return {pedido, message: 'Payment created successfully'};
   }
 
   findAll() {
-    return this.pedidosRepository.find();
+    return this.pedidosRepository.find({relations:['items']});
   }
 
-  async findOne(id: string) {
-
-    const pedido = await this.pedidosRepository.findOneBy({id});
-
-    if(!pedido) throw new BadRequestException(`Order with id ${id} not found`)
-
-    return pedido
+  async findOne(id: string ) {
+    const order = await this.pedidosRepository.findOne({where: { userId: id },
+      relations: ['items']})
+    if(!order) throw new BadRequestException(`order with id ${id } not found`);
+    const data = order.items.map(item => {
+      delete item.id
+      return item
+    })
+    return {...order, items: data};
   }
 
   update(id: number, updatePedidoDto: UpdatePedidoDto) {

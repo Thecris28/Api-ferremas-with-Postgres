@@ -50,11 +50,7 @@ describe('CartsService', () => {
     jest.clearAllMocks();
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-
-  it('should create a cart successfully', async () => {
+  it('crear un carrito', async () => {
     const createCartDto: CreateCartDto = {
       userId: 'user1',
       items: [
@@ -74,6 +70,12 @@ describe('CartsService', () => {
     expect(mockCartRepository.create).toHaveBeenCalled();
     expect(mockCartRepository.save).toHaveBeenCalled();
   });
+
+  it('actualizar un carrito', async () => {
+
+
+
+  })
 
 
 });

@@ -19,7 +19,7 @@ export class PedidoItem {
     @Column()
     quantity: number;
 
-    @ManyToOne(() => Pedido, (pedido) => pedido.items)
+    @ManyToOne(() => Pedido, (pedido) => pedido.items, { onDelete: 'CASCADE' })
     pedido: Pedido;
 
     
