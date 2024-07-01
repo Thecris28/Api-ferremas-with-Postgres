@@ -32,6 +32,9 @@ export class PedidosService {
 
      let product = await Promise.all(items.map( async item => {
       const data = await this.productsService.findOne(item.productId);
+      if (item.quantity > data.stock) {
+        throw new BadRequestException(`Not enough stock for product ${data.nombre}`);
+      }
       this.productsService.updateStock(data.id, item.quantity)
       console.log(data)
 
