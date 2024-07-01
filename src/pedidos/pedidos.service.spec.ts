@@ -171,24 +171,5 @@ describe('PedidosService', () => {
     
   });
 
-  // describe('createCart', () => {
-  //   it('should throw an error if product stock is not enough', async () => {
-  //     const createCartDto: CreateCartDto = {
-  //       userId: 'user1',
-  //       items: [
-  //         { productId: 'product1', quantity: 10 },
-  //       ],
-  //     };
-
-  //     const product = { id: 'product1',marca: 'test marca',codigo: 'test', categoria: 1, createdAt: new Date(), nombre: 'Product 1', precio: 1000, stock: 10 };
-
-  //     jest.spyOn(productsService, 'findOne').mockResolvedValueOnce(product);
-
-  //     await expect(cartsService.createCart(createCartDto)).rejects.toThrow(BadRequestException);
-  //     await expect(cartsService.createCart(createCartDto)).rejects.toThrow('Not enough stock');
-
-  //     expect(productsService.findOne).toHaveBeenCalledTimes(1);
-  //     expect(productsService.findOne).toHaveBeenCalledWith('product1');
-  //   });
-  // });
+  
 });

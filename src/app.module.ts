@@ -14,7 +14,7 @@ import { CartsModule } from './carts/carts.module';
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
-      type: 'postgres',
+      type: 'postgres',  //aqui cambiar el tipo de base de datos 
       host: process.env.DB_HOST,
       port: +process.env.DB_PORT,
       database: process.env.DB_NAME,

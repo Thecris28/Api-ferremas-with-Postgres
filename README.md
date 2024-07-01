@@ -23,7 +23,33 @@
 
 ## Descripción
 
-API Desarrollada con [Nest](https://github.com/nestjs/nest) framework + TypeScript + Postgres
+🚧 🚧 API Desarrollada con [Nest](https://github.com/nestjs/nest) framework + TypeScript + Postgres 🚧 🚧
+
+## Lista de operaciones que se pueden realizar 
+* Productos
+  * Crear un productos 
+  * Listar productos
+  * Listar producto por Id
+  * Listar productos por categoria
+  * Eliminar un producto
+* Usuarios
+  * Registrarse 
+  * Login
+  * Buscar Usuario
+* Categorias
+  * Consultar categorias
+  * Crear una nuva categoria
+  * Listar categorias
+* Carrito
+  * Crear un carrito
+  * Buscar un carrito
+  * Actualizar un carrito
+  * Eliminar Carrito
+* Pedidos 
+  * Pagar un carrito
+  * Consultar un Pedido
+  * Consultar pedidos de usuarios
+  
 
 ## Requerimientos
 
@@ -43,7 +69,7 @@ npm i -g @nestjs/cli
 * Clonar repositorio
 
 ```bash
-git clone https://github.com/Thecris28/Api-ferremas.git
+git clone https://github.com/Thecris28/Api-ferremas-with-Postgres.git
 ```
 * Ingresar a la carpeta del proyecto
 ```bash
@@ -53,11 +79,21 @@ cd Api-ferremas
 ```bash
 npm install
 ```
-* Levantar imagen postgres con docker
+* Abrir docker e instalar imagen postgres o abrir cmd y ejecutar el siguiente comando
 ```bash
+docker pull postgres:14.3
+```
+* Levantar imagen postgres con docker
+Ejecutar para levantar imagen postgres
+```bash
+#los contenedores se ejecutan en segundo plano. Esto permite que el terminal quede libre para que puedas seguir usando otros comandos.
 docker-compose up -d
 ```
-
+o tambien puedes ejecutar 
+```bash
+docker-compose up
+```
+* ### Iniciamos la api 
 ```bash
 # development
 $ npm run start
@@ -70,25 +106,34 @@ $ npm run start:dev
 ## Test
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# Pruebas unitarias
+npm run test
+```
+```bash
+# Pruebas unitarias por modulo
+# Recomendado para ver el detalle de las pruebas 
+npm test users.service.spec.ts
+npm test carts.service.spec.ts
+npm test pedidos.service.spec.ts
+npm test products.service.spec.ts
 ```
 
-## Support
+```bash
+# Pruebas de integracion
+npm run test:e2e
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Cambiar a base de datos oracle
 
-## Stay in touch
+* Revisar archivo .env copia e ingresar los datos del usuario y contraseña de bd oracle
+* Buscar el archivo app.module.ts y editar el
+```type: 'oracle'``` 
+* iniciar app e instalar drivers oracle
+* Apareceran errores los cuales hay que bucar en los archivos dto y renombrar las columnas text a varchar
+*Despues de eso estamos listos para iniciar la api 
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+
+
 
 ## License
 
